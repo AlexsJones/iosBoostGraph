@@ -1,0 +1,15 @@
+iosBoostGraph/libboost.a filter=lfs diff=lfs merge=lfs -text
+iosBoostGraph/libboost_atomic.a filter=lfs diff=lfs merge=lfs -text
+iosBoostGraph/libboost_chrono.a filter=lfs diff=lfs merge=lfs -text
+iosBoostGraph/libboost_date_time.a filter=lfs diff=lfs merge=lfs -text
+iosBoostGraph/libboost_exception.a filter=lfs diff=lfs merge=lfs -text
+iosBoostGraph/libboost_filesystem.a filter=lfs diff=lfs merge=lfs -text
+iosBoostGraph/libboost_graph.a filter=lfs diff=lfs merge=lfs -text
+iosBoostGraph/libboost_program_options.a filter=lfs diff=lfs merge=lfs -text
+iosBoostGraph/libboost_random.a filter=lfs diff=lfs merge=lfs -text
+iosBoostGraph/libboost_regex.a filter=lfs diff=lfs merge=lfs -text
+iosBoostGraph/libboost_signals.a filter=lfs diff=lfs merge=lfs -text
+iosBoostGraph/libboost_system.a filter=lfs diff=lfs merge=lfs -text
+iosBoostGraph/libboost_thread.a filter=lfs diff=lfs merge=lfs -text
+iosBoostGraph/boost.framework/Versions/A/boost filter=lfs diff=lfs merge=lfs -text
+iosBoostGraph/boost.framework/boost filter=lfs diff=lfs merge=lfs -text
