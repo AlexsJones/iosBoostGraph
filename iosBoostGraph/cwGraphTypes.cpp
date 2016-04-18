@@ -9,26 +9,33 @@
 #ifndef cwGraphTypes_h
 #define cwGraphTypes_h
 #include <boost/graph/graphviz.hpp>
+/*
+ adjacency_list<OutEdgeList, VertexList, Directed,
+ VertexProperties, EdgeProperties,
+ GraphProperties, EdgeList>
+ */
 
-// Properties-----
-typedef boost::property < boost::vertex_name_t,std::string, boost::property < boost::vertex_color_t, float > > vertex_p;
+// Fruchterman Reingold attraction force-----
+struct AttractionF {
+    template <typename EdgeDescriptor, typename Graph>
+    double operator()(EdgeDescriptor /*ed*/, double k, double d, Graph const& /*g*/) const {
+        //std::cout << "DEBUG af('" << g[source(ed, g)].name << " -> " << g[target(ed, g)].name << "; k:" << k << "; d:" << d << ")\n";
+        return (d*d/k);
+    }
+};
 
-typedef boost::property < boost::edge_weight_t, double > edge_p;
-
-typedef boost::property < boost::graph_name_t, std::string > graph_p;
 ///---------------
 
 //Custom graph properties
-struct VertexP { int foo; std::string shape; std::string id;};
+struct Vertex { std::string name; };
 
-struct EdgeP   { uint64_t nse; };
 //----------------
 
 //Graph Types-----
-typedef boost::adjacency_list < boost::vecS, boost::vecS, boost::directedS,
-vertex_p, edge_p, graph_p > graph_t;
+//typedef boost::adjacency_list < boost::vecS, boost::vecS, boost::directedS,
+//vertex_p, edge_p, graph_p > graph_t;
 
-typedef boost::adjacency_list<boost::listS, boost::vecS, boost::directedS, VertexP, EdgeP> AdGraph;
+typedef boost::adjacency_list<boost::vecS, boost::vecS, boost::undirectedS,Vertex> AdGraph;
 //----------------
 
 //Graph traits----

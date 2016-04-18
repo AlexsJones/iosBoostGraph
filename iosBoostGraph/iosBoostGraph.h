@@ -8,11 +8,11 @@
 
 #import <Foundation/Foundation.h>
 #import "iosBoostGraphProtocol.h"
+#import <CoreGraphics/CGGeometry.h>
+#import "ObjCGraphInterchangeFormat.h"
 
 @interface iosBoostGraph : NSObject <iosBoostGraphProtocol>
 
--(NSString * )testWrite;
-
--(bool)testRead;
+-(ProcessedNodeList*)processGraph:(ComposedNodeList *)nodelist withPositionMapHeight:(CGFloat)height withPositionMapWidth:(CGFloat)width;
 
 @end

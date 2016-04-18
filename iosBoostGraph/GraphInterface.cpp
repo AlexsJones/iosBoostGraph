@@ -8,85 +8,125 @@
 
 #include <stdio.h>
 #include "GraphInterface.hpp"
+
 #include <boost/graph/graphviz.hpp>
+#include <boost/graph/topology.hpp>
+#include <boost/graph/fruchterman_reingold.hpp>
+#include <boost/graph/random_layout.hpp>
 //Including custom types in this file, hidden out of the header
 #include "cwGraphTypes.cpp"
+#include <boost/graph/topology.hpp>
+#include <boost/random.hpp>
+#include <unordered_map>
+#include <boost/variant/get.hpp>
+using namespace boost;
 
-std::string GraphInterface::TestGraphWrite() {
-
+std::shared_ptr<CXXProcessedNodeList> GraphInterface::ProcessGraph(CXXComposeNodeList *c) {
+    
     boost::dynamic_properties dp;
     
     AdGraph g;
     
-    vertex_t v1 = boost::add_vertex(g);
+    //Initially let's create the vertices
+    std::vector<std::shared_ptr<CXXComposedNode>>::iterator it;
     
-    vertex_t v2 = boost::add_vertex(g);
+    std::unordered_map<std::string, vertex_t> vertices;
     
-    vertex_t v3 = boost::add_vertex(g);
+    for(it = c->nodes.begin(); it != c->nodes.end(); ++it) {
+        
+        std::shared_ptr<CXXComposedNode> node = *it;
+        
+        vertex_t v1 = boost::add_vertex(g);
+        
+        g[v1].name = node->guid;
+        
+        vertices[node->guid] = v1;
+    }
     
-    boost::add_edge(v1, v2, g);
+    //Now all vertices are loaded with their guids we can reloop the list and pull them out to find edges
     
-    boost::add_edge(v1, v3, g);
+    for(it = c->nodes.begin(); it != c->nodes.end(); ++it) {
+        
+        std::shared_ptr<CXXComposedNode> node = *it;
+        
+        std::vector<std::string>::iterator sit;
+        
+        for(sit = node->pointsTo.begin(); sit != node->pointsTo.end(); ++sit ) {
+            
+            std::string str = *sit;
+            
+            boost::add_edge(vertices[node->guid], vertices[str],g);
+        }
+    }
     
-    g[v1].foo = 10;
-    g[v1].id = "node_v1";
     
-    g[v2].shape = "house";
-    g[v2].id = "node_v2";
+    //Add dynamic property node_id
+    dp.property("node_id", get(&Vertex::name, g));
     
-    g[v3].id = "node_v3";
-    g[v3].shape = "rectangle";
+    //Create topology map
+    using Topology = boost::square_topology<boost::mt19937>;
+
+    using Position = Topology::point_type;
     
-    dp.property("shape", get(&VertexP::shape, g));
+    std::vector<Position> positions(num_vertices(g));
     
-    dp.property("id", get(&VertexP::id, g));
+    square_topology<boost::mt19937> topology;
+    
+    typedef rectangle_topology<> topology_type;
+    
+    typedef topology_type::point_type point_type;
+    
+    minstd_rand gen;
+    
+    topology_type topo(gen,0,0,c->width, c->height);
+    
+    /*
+     This is still a work in progress but essentially we are creating a topology and position map
+     Feeding in our verticies into the graph layouts then using the processed positions on the other side
+     http://www.boost.org/doc/libs/1%5F38%5F0/libs/graph/doc/fruchterman%5Freingold.html
+     defined: http://www.boost.org/doc/libs/1%5F38%5F0/boost/graph/fruchterman_reingold.hpp
+     */
+    
+    
+    random_graph_layout(g,
+                        make_iterator_property_map(positions.begin(), boost::identity_property_map{}),
+                        topo);
+    
+    fruchterman_reingold_force_directed_layout(
+                                               g,
+                                               make_iterator_property_map(positions.begin(), boost::identity_property_map{}),
+                                               topo,
+                                               attractive_force(AttractionF())
+                                               );
     
     std::stringstream *s = new std::stringstream();
     
-    boost::write_graphviz_dp(*s, g, dp, std::string("id"));
-
-    g.clear();
+    boost::write_graphviz_dp(*s, g, dp, std::string("node_id"));
     
-    std::string str(s->str());
+    std::cout << s->str() << std::endl;
     
-    delete s;
+    graph_traits<AdGraph>::vertex_iterator vi, vi_end;
     
-    return str;
-}
-
-bool GraphInterface::TestGraphReadFromString(std::string s) {
+    std::shared_ptr<CXXProcessedNodeList> processedList = std::make_shared<CXXProcessedNodeList>();
     
-    // Construct an empty graph and prepare the dynamic_property_maps.
-    graph_t graph(0);
-    boost::dynamic_properties dp;
-    
-    boost::property_map<graph_t, boost::vertex_name_t>::type name =
-    get(boost::vertex_name, graph);
-    dp.property("node_id",name);
-    
-    boost::property_map<graph_t, boost::vertex_color_t>::type mass =
-    get(boost::vertex_color, graph);
-    dp.property("mass",mass);
-    
-    boost::property_map<graph_t, boost::edge_weight_t>::type weight =
-    get(boost::edge_weight, graph);
-    dp.property("weight",weight);
-    
-    // Use ref_property_map to turn a graph property into a property map
-    boost::ref_property_map<graph_t*,std::string>
-    gname(get_property(graph,boost::graph_name));
-    dp.property("name",gname);
-    
-    // Sample graph as an std::istream;
-    std::istringstream gvgraph(s.c_str());
-    
-    bool status = false;
-    try {
-        status = read_graphviz(gvgraph,graph,dp,"node_id");
-    }catch(std::exception e) {
+    for (boost::tie(vi, vi_end) = boost::vertices(g); vi != vi_end; ++vi) {
         
-        std::cout << e.what() << std::endl;
+        std::cout << get(&Vertex::name, g, *vi) << '\t' << positions[*vi][0] << '\t' << positions[*vi][1] << std::endl;
+        
+        std::shared_ptr<CXXProcessedNode> node = std::make_shared<CXXProcessedNode>();
+        
+        node->guid = get(&Vertex::name, g, *vi);
+        
+        node->coord.x = positions[*vi][0];
+        
+        node->coord.y = positions[*vi][1];
+        
+        processedList->nodes.push_back(node);
     }
     
-    return status;
+    processedList->width = c->width;
+    
+    processedList->height = c->height;
+    
+    return processedList;
 }

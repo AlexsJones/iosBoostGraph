@@ -10,16 +10,19 @@
 #define GraphInterface_hpp
 #import <iostream>
 #include <stdio.h>
+#include "CXXGraphicInterchangeFormat.h"
+
+typedef enum GraphInterfaceResponseStatus {
+    OKAY,
+    FAILED,
+    MALFORMED
+}GraphInterfaceResponseStatus;
 
 class GraphInterface {
  
 public:
     
-    std::string TestGraphWrite(void);
-    
-    bool TestGraphReadFromString(std::string s);
-    
-//    void WriteGraph(std::ostream& out, const Graph& g,
-//                    const dynamic_properties& dp);
+    std::shared_ptr<CXXProcessedNodeList> ProcessGraph(CXXComposeNodeList *c);
+
 };
 #endif /* GraphInterface_hpp */

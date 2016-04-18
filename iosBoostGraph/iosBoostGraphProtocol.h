@@ -12,10 +12,4 @@
 
 @optional
 
--(NSString *)test;
-
--(void) writeGraph:(NSString *)fromString;
-
--(void) readGraph;
-
 @end

@@ -25,6 +25,8 @@
 		FA7716431CB527B700399274 /* iosBoostGraph.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FA7716371CB5094500399274 /* iosBoostGraph.h */; };
 		FA7716441CB527BA00399274 /* iosBoostGraphProtocol.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FA77163B1CB5094A00399274 /* iosBoostGraphProtocol.h */; };
 		FA7716451CB527BE00399274 /* GraphInterface.hpp in CopyFiles */ = {isa = PBXBuildFile; fileRef = FA7716361CB5094500399274 /* GraphInterface.hpp */; };
+		FAA1DC631CBBBF2B007995B9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA1DC621CBBBF2B007995B9 /* CoreGraphics.framework */; };
+		FAAAAC7B1CB7C7DB00DB1B0D /* cwGraphTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAAAAC7A1CB7BCDD00DB1B0D /* cwGraphTypes.cpp */; };
 		FAFC47231CB54E7200201032 /* GraphInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = FAFC47221CB54E7200201032 /* GraphInterface.cpp */; };
 /* End PBXBuildFile section */
 
@@ -63,6 +65,9 @@
 		FA7716371CB5094500399274 /* iosBoostGraph.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iosBoostGraph.h; sourceTree = SOURCE_ROOT; };
 		FA7716381CB5094500399274 /* iosBoostGraph.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = iosBoostGraph.mm; sourceTree = SOURCE_ROOT; };
 		FA77163B1CB5094A00399274 /* iosBoostGraphProtocol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iosBoostGraphProtocol.h; sourceTree = SOURCE_ROOT; };
+		FAA1DC621CBBBF2B007995B9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		FAA1DC651CBBDC08007995B9 /* ObjCGraphInterchangeFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjCGraphInterchangeFormat.h; sourceTree = SOURCE_ROOT; };
+		FAA1DC661CBBDE30007995B9 /* CXXGraphicInterchangeFormat.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CXXGraphicInterchangeFormat.h; sourceTree = SOURCE_ROOT; };
 		FAAAAC7A1CB7BCDD00DB1B0D /* cwGraphTypes.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cwGraphTypes.cpp; sourceTree = SOURCE_ROOT; };
 		FAFC47221CB54E7200201032 /* GraphInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GraphInterface.cpp; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -72,6 +77,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAA1DC631CBBBF2B007995B9 /* CoreGraphics.framework in Frameworks */,
 				FA7716281CB5092B00399274 /* libboost_date_time.a in Frameworks */,
 				FA77162C1CB5092B00399274 /* libboost_program_options.a in Frameworks */,
 				FA7716301CB5092B00399274 /* libboost_system.a in Frameworks */,
@@ -95,6 +101,7 @@
 		FA7715941CB4085D00399274 = {
 			isa = PBXGroup;
 			children = (
+				FAA1DC621CBBBF2B007995B9 /* CoreGraphics.framework */,
 				FA7715A91CB4086C00399274 /* lib */,
 				FA77159F1CB4085D00399274 /* iosBoostGraph */,
 				FA77159E1CB4085D00399274 /* Products */,
@@ -113,6 +120,8 @@
 			isa = PBXGroup;
 			children = (
 				FA77163B1CB5094A00399274 /* iosBoostGraphProtocol.h */,
+				FAA1DC651CBBDC08007995B9 /* ObjCGraphInterchangeFormat.h */,
+				FAA1DC661CBBDE30007995B9 /* CXXGraphicInterchangeFormat.h */,
 				FA7716371CB5094500399274 /* iosBoostGraph.h */,
 				FA7716381CB5094500399274 /* iosBoostGraph.mm */,
 				FA7716361CB5094500399274 /* GraphInterface.hpp */,
@@ -199,6 +208,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FAAAAC7B1CB7C7DB00DB1B0D /* cwGraphTypes.cpp in Sources */,
 				FAFC47231CB54E7200201032 /* GraphInterface.cpp in Sources */,
 				FA77163A1CB5094500399274 /* iosBoostGraph.mm in Sources */,
 			);
@@ -294,6 +304,7 @@
 		FA7715A71CB4085D00399274 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -305,12 +316,14 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/iosBoostGraph/boost.framework/Headers";
 			};
 			name = Debug;
 		};
 		FA7715A81CB4085D00399274 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)",
@@ -322,6 +335,7 @@
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/iosBoostGraph/boost.framework/Headers";
 			};
 			name = Release;
 		};
