@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA10C3C31CC79C630084FA3D /* ObjCGraphInterchangeFormat.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FAA1DC651CBBDC08007995B9 /* ObjCGraphInterchangeFormat.h */; };
+		FA10C3C41CC79C630084FA3D /* CXXGraphicInterchangeFormat.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = FAA1DC661CBBDE30007995B9 /* CXXGraphicInterchangeFormat.h */; };
 		FA7716261CB5092B00399274 /* libboost_atomic.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA7716191CB5092B00399274 /* libboost_atomic.a */; };
 		FA7716271CB5092B00399274 /* libboost_chrono.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA77161A1CB5092B00399274 /* libboost_chrono.a */; };
 		FA7716281CB5092B00399274 /* libboost_date_time.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FA77161B1CB5092B00399274 /* libboost_date_time.a */; };
@@ -37,6 +39,8 @@
 			dstPath = "include/$(PRODUCT_NAME)";
 			dstSubfolderSpec = 16;
 			files = (
+				FA10C3C31CC79C630084FA3D /* ObjCGraphInterchangeFormat.h in CopyFiles */,
+				FA10C3C41CC79C630084FA3D /* CXXGraphicInterchangeFormat.h in CopyFiles */,
 				FA7716451CB527BE00399274 /* GraphInterface.hpp in CopyFiles */,
 				FA7716441CB527BA00399274 /* iosBoostGraphProtocol.h in CopyFiles */,
 				FA7716431CB527B700399274 /* iosBoostGraph.h in CopyFiles */,
